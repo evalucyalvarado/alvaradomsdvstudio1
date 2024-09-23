@@ -1,5 +1,5 @@
 // Your API key here
-const apiKey = "";  
+const apiKey = "VyqsaQFSegVpsBBNhfYThiYtvqGZ7aLimSIH9yCv";  
 
 // Search base URL
 const searchBaseURL = "https://api.si.edu/openaccess/api/v1.0/search";
@@ -66,7 +66,7 @@ async function fetchAllData(url) {
 function addObject(objectData) {
     let currentPlace = "";
     if (objectData.content.indexedStructured.place) {
-        currentPlace = objectData.content.indexedStructured.place[2] || ""; // Default to empty string if undefined
+        currentPlace = objectData.content.indexedStructured.place[1] || ""; // Default to empty string if undefined
     }
 
     let collectorName = "";
@@ -88,5 +88,3 @@ function addObject(objectData) {
     });
 }
 
-// Remove the `fetchSearchData2()` call from the end of the file.
-// This should be triggered manually in the main code when needed.

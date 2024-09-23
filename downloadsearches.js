@@ -33,28 +33,20 @@ function initiateDownload() {
 // Add event listener to download button
 document.getElementById("dwn-btn").addEventListener("click", fetchAndDownload, false);
 
+// Function to fetch data and download the file
 async function fetchAndDownload() {
   try {
     console.log('Fetching Cope data...');
-    await fetchSearchData();
+    await fetchSearchData(); // Fetch data from Cope
     console.log('Fetch from Cope completed.');
-
-    // Log the data right after the fetch
-    console.log('Cope data after fetch:', myArray);
+    console.log('Cope data after fetch:', myArray); // Debugging
 
     console.log('Fetching Marsh data...');
-    await fetchSearchData2();
+    await fetchSearchData2(); // Fetch data from Marsh
     console.log('Fetch from Marsh completed.');
+    console.log('Marsh data after fetch:', myArray2); // Debugging
 
-    // Log the data right after the fetch
-    console.log('Marsh data after fetch:', myArray2);
-
-    // Debugging: Ensure arrays have data before downloading
-    if (myArray.length === 0 || myArray2.length === 0) {
-      console.error("Error: One of the arrays is empty. Check API response or data processing.");
-      return;
-    }
-
+    // Regardless of whether arrays have data, initiate the download
     console.log('Combining data and initiating download...');
     initiateDownload();
   } catch (error) {

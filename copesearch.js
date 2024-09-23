@@ -1,5 +1,5 @@
 // Your API key here
-const apiKey = "";  
+const apiKey = "VyqsaQFSegVpsBBNhfYThiYtvqGZ7aLimSIH9yCv";  
 
 // Search base URL
 const searchBaseURL = "https://api.si.edu/openaccess/api/v1.0/search";
@@ -14,8 +14,8 @@ export let myArray = [];
 export let jsonString = '';
 
 // Function to fetch search data
-export async function fetchSearchData(searchTerm) {
-    const url = `${searchBaseURL}?api_key=${apiKey}&q=${encodeURIComponent(searchTerm)}`;
+export async function fetchSearchData() {
+    const url = `${searchBaseURL}?api_key=${apiKey}&q=${encodeURIComponent(search)}`;
     console.log('Fetching data from URL:', url);
 
     try {
@@ -62,11 +62,12 @@ async function fetchAllData(url) {
     }
 }
 
+
 // Function to add data to the array
 function addObject(objectData) {
     let currentPlace = "";
     if (objectData.content.indexedStructured.place) {
-        currentPlace = objectData.content.indexedStructured.place[2] || ""; // Default to empty string if undefined
+        currentPlace = objectData.content.indexedStructured.place[1] || ""; // Default to empty string if undefined
     }
 
     let collectorName = "";
@@ -86,7 +87,7 @@ function addObject(objectData) {
         name: collectorName,
         date: collectionDate,
     });
+
 }
 
-// Remove the `fetchSearchData(search)` call from the end of the file.
-// This should be triggered manually in the main code when needed.
+
