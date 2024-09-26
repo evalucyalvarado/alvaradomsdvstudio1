@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Existing head content -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Bone Wars</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Corrected font family name -->
+    <link href="https://fonts.googleapis.com/css2?family=Vollkorn+SC:wght@400;600;700;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Include your CSS styles -->
+    <style>
+        body {
+            font-family: 'Vollkorn SC', serif;
+            /* Use the chosen font */
+            background-color: #cecea3;
+            /* Light beige background */
+            color: #2a2828;
+            /* Dark gray text color */
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        #info-page,
+        #visualization {
+            padding: 20px;
+        }
+
+        .portraits {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .portrait-container {
+            position: relative;
+            margin: 0 10px;
+            text-align: center;
+        }
+
+        .portrait {
+            width: 150px;
+            height: 200px;
+            border-radius: 50%;
+            /* Makes the image oval */
+            object-fit: cover;
+            object-position: center top;
+            /* Crop the image to focus on the top center */
+            margin: 0 auto;
+            overflow: hidden;
+            /* Hide overflow to enforce cropping */
+            border: 5px solid #4f2e17;
+            /* Add a frame around the portraits */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            /* Add a subtle shadow */
+            cursor: pointer;
+            /* Indicate interactivity */
+            filter: sepia(0.5);
+        }
+
+        .portrait-container figcaption {
+            margin-top: 10px;
+        }
+
+        .portrait-container h2 {
+            font-size: 1.1em;
+            margin: 5px 0;
+        }
+
+        .portrait-container p {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        /* Hover effect for additional info */
+        .additional-info {
+            display: none;
+            /* Hidden by default */
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 200px;
+            background-color: rgba(223, 223, 197, 0.9);
+            /* Semi-transparent overlay */
+            color: #333;
+            border-radius: 50%;
+            padding: 10px;
+            box-sizing: border-box;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .portrait-container:hover .additional-info {
+            display: flex;
+            /* Show on hover */
+        }
+
+        .additional-info p {
+            margin: 0;
+            font-size: 0.9em;
+        }
+
+        p {
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Styles for the fossil icon */
+        .fossil-icon {
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            animation: pulse 2s infinite;
+        }
+
+        /* Pulse animation */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+                /* Gold glow */
+            }
+
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 20px rgba(255, 215, 0, 1);
+                /* Brighter glow */
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            }
+        }
+
+        .fossil-icon:hover {
+            transform: scale(1.15);
+            box-shadow: 0 0 25px rgb(249, 232, 135);
+        }
+
+        /* Styles for the tooltip and legend */
+        .tooltip {
+            position: absolute;
+            text-align: left;
+            width: auto;
+            max-width: 300px;
+            padding: 10px;
+            font: 12px sans-serif;
+            background: rgba(210, 94, 94, 0.9);
+            border: 1px solid #ab2424;
+            border-radius: 5px;
+            pointer-events: none;
+            color: #333;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        /* Legend styles */
+        #legendContainer {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px auto;
+            width: 80%;
+            background-color: #cecea3;
+            /* Match page background color */
+            text-align: left;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .legend-item svg {
+            margin-right: 8px;
+        }
+
+        .legend-text {
+            font-size: 12px;
+            color: #333;
+        }
+
+        /* Style for the legend toggle button */
+        #legend-toggle {
+            font-size: 14px;
+            padding: 6px 12px;
+            margin: 10px 0;
+            cursor: pointer;
+            background-color: #4f2e17;
+            /* Dark brown background */
+            color: #ffffff;
+            /* White text */
+            border: none;
+            /* Remove default border */
+            border-radius: 4px;
+            /* Optional: rounded corners */
+            font-family: 'Vollkorn SC', serif;
+            /* Match page font */
+        }
+
+
+
+        /* Styles for x-axis label */
+        .x-axis-label {
+            font-size: 14px;
+            fill: #333;
+        }
+
+        /* Styles for y-axis label */
+        .y-axis-label {
+            font-size: 14px;
+            fill: #333;
+        }
+
+        /* Adjust SVG to center */
+        #streamGraph {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Info Page Section -->
+    <div id="info-page">
+        <h1>The Bone Wars</h1>
+        <div class="portraits">
+            <figure class="portrait-container">
+                <img src="cope.jpg" alt="Edward Drinker Cope" class="portrait">
+                <figcaption>
+                    <h2>Edward Drinker Cope</h2>
+                    <p>American paleontologist and comparative anatomist at the University of Pennsylvania.</p>
+                </figcaption>
+                <div class="additional-info">
+                    <p>Cope discovered over 1,000 species of fossil vertebrates.</p>
+                </div>
+            </figure>
+            <figure class="portrait-container">
+                <img src="marsh1.jpg" alt="Othniel Charles Marsh" class="portrait">
+                <figcaption>
+                    <h2>Othniel Charles Marsh</h2>
+                    <p>American paleontologist and professor of paleontology at Yale University.</p>
+                </figcaption>
+                <div class="additional-info">
+                    <p>Marsh discovered and described dozens of new dinosaur species.</p>
+                </div>
+            </figure>
+        </div>
+        <p>
+            The Bone Wars, also known as the Great Dinosaur Rush, was a period of intense fossil speculation and
+            discovery during the late 19th century. It was marked by a heated rivalry between Edward Drinker Cope and
+            Othniel Charles Marsh.
+        </p>
+        <!-- Fossil Icon acting as button -->
+        <img src="fossil.png" alt="Enter Visualization" id="enter-btn" class="fossil-icon" tabindex="0">
+    </div>
+
+    <!-- Visualization Section -->
+    <div id="visualization" style="display: none;">
+        <h1>The Bone Wars</h1>
+        <svg id="streamGraph" width="800" height="450"></svg> <!-- Set to 16:9 ratio -->
+        <!-- Legend Container -->
+        <button id="legend-toggle">Show Legend</button>
+        <div id="legendContainer"></div>
+    </div>
+
+    <!-- Include D3.js and your script -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- Include your data file -->
+    <script src="data.js"></script> <!-- Ensure this file defines 'inputData' -->
+    <!-- Link to your JS file -->
+    <script src="app.js"></script>
+
+    <!-- JavaScript to handle page switching -->
+    <script>
+        const enterBtn = document.getElementById('enter-btn');
+        enterBtn.addEventListener('click', () => {
+            document.getElementById('info-page').style.display = 'none';
+            document.getElementById('visualization').style.display = 'block';
+        });
+
+        enterBtn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                enterBtn.click();
+            }
+        });
+    </script>
+</body>
+
+</html>
